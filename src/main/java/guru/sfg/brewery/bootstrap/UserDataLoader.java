@@ -19,9 +19,9 @@ public class UserDataLoader implements CommandLineRunner {
     private final PasswordEncoder passwordEncoder;
 
     private void loadSecurityData(){
-        Authority admin = authorityRepository.save(Authority.builder().role("ADMIN").build());
-        Authority userRole = authorityRepository.save(Authority.builder().role("USER").build());
-        Authority customer = authorityRepository.save(Authority.builder().role("CUSTOMER").build());
+        Authority admin = authorityRepository.save(Authority.builder().role("ROLE_ADMIN").build());
+        Authority userRole = authorityRepository.save(Authority.builder().role("ROLE_USER").build());
+        Authority customer = authorityRepository.save(Authority.builder().role("ROLE_CUSTOMER").build());
         userRepository.save(User.builder()
                 .username("admin")
                 .password(passwordEncoder.encode("admin"))
@@ -49,6 +49,5 @@ public class UserDataLoader implements CommandLineRunner {
             loadSecurityData();
         }
 
-        System.out.println(authorityRepository.count());
     }
 }
