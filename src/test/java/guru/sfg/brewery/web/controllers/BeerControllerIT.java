@@ -25,11 +25,11 @@ public class BeerControllerIT extends BaseIT{
     @DisplayName("Init New Form")
     @Nested
     class InitNewForm{
-        @ParameterizedTest(name = "#{index} with [{arguments}]")
-        @MethodSource("guru.sfg.brewery.web.controllers.BeerControllerIT#getStreamAllUsers")
-        void initCreationFormAuth(String user, String pwd) throws Exception {
 
-            mockMvc.perform(get("/beers/new").with(httpBasic(user, pwd)))
+        @Test
+        void initCreationFormAuth() throws Exception {
+
+            mockMvc.perform(get("/beers/new").with(httpBasic("admin", "admin")))
                     .andExpect(status().isOk())
                     .andExpect(view().name("beers/createBeer"))
                     .andExpect(model().attributeExists("beer"));
@@ -49,7 +49,7 @@ public class BeerControllerIT extends BaseIT{
         @MethodSource("guru.sfg.brewery.web.controllers.BeerControllerIT#getStreamAllUsers")
         void findBeersFormAUTH(String user, String pwd) throws Exception{
             mockMvc.perform(get("/beers/find")
-                            .with(httpBasic(user, pwd)))
+                    .with(httpBasic(user, pwd)))
                     .andExpect(status().isOk())
                     .andExpect(view().name("beers/findBeers"))
                     .andExpect(model().attributeExists("beer"));
@@ -75,7 +75,7 @@ public class BeerControllerIT extends BaseIT{
         @MethodSource("guru.sfg.brewery.web.controllers.BeerControllerIT#getStreamAllUsers")
         void findBeerFormAuth(String user, String pwd) throws Exception {
             mockMvc.perform(get("/beers").param("beerName", "")
-                            .with(httpBasic(user, pwd)))
+                    .with(httpBasic(user, pwd)))
                     .andExpect(status().isOk());
         }
     }
@@ -89,7 +89,7 @@ public class BeerControllerIT extends BaseIT{
             Beer beer = beerRepository.findAll().get(0);
 
             mockMvc.perform(get("/beers/" + beer.getId())
-                            .with(httpBasic(user, pwd)))
+                    .with(httpBasic(user, pwd)))
                     .andExpect(status().isOk())
                     .andExpect(view().name("beers/beerDetails"))
                     .andExpect(model().attributeExists("beer"));

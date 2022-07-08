@@ -22,10 +22,6 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableGlobalMethodSecurity(securedEnabled = true,prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Bean
-    PasswordEncoder getPasswordEncoder() {
-        return SfgPasswordEncoderFactories.createDelegatingPasswordEncoder();
-    }
 
     public RestHeaderAuthFilter restHeaderAuthFilter(AuthenticationManager authenticationManager) {
         RestHeaderAuthFilter filter = new RestHeaderAuthFilter(new AntPathRequestMatcher("/api/**"));
@@ -41,18 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests(authorize -> {
                     authorize
                             .antMatchers("/h2-console/**").permitAll() //do not use in production!
-                            .antMatchers("/", "/webjars/**", "/login", "/resources/**").permitAll()
-                            .antMatchers(HttpMethod.GET, "/api/v1/beer/**")
-                            .hasAnyRole("ADMIN", "CUSTOMER", "USER")
-                            .mvcMatchers(HttpMethod.DELETE, "/api/v1/beer/**").hasRole("ADMIN")
-                            .mvcMatchers(HttpMethod.GET, "/api/v1/beerUpc/{upc}")
-                            .hasAnyRole("ADMIN", "CUSTOMER", "USER")
-                            .mvcMatchers("/brewery/breweries")
-                            .hasAnyRole("ADMIN", "CUSTOMER")
-                            .mvcMatchers(HttpMethod.GET, "/brewery/api/v1/breweries")
-                            .hasAnyRole("ADMIN", "CUSTOMER")
-                            .mvcMatchers("/beers/find", "/beers/{beerId}")
-                            .hasAnyRole("ADMIN", "CUSTOMER", "USER");
+                            .antMatchers("/", "/webjars/**", "/login", "/resources/**").permitAll();
                 } )
                 .authorizeRequests()
                 .anyRequest().authenticated()
@@ -64,18 +49,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.headers().frameOptions().sameOrigin();
     }
 
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-////        auth.inMemoryAuthentication()
-////                .withUser("admin")
-////                .password("{bcrypt}$2a$10$gRANvjUQSVOWw9TWmINT7.j82d.dfK7M02BmPcSHc4ib4urIaNo5i")
-////                .roles("ADMIN")
-////                .and()
-////                .withUser("user")
-////                .password("{sha256}1296cefceb47413d3fb91ac7586a4625c33937b4d3109f5a4dd96c79c46193a029db713b96006ded")
-////                .roles("USER");
-////
-////        auth.inMemoryAuthentication().withUser("scott").password("{bcrypt10}$2a$10$jv7rEbL65k4Q3d/mqG5MLuLDLTlg5oKoq2QOOojfB3e2awo.nlmgu").roles("CUSTOMER");
-//    }
+    @Bean
+    PasswordEncoder passwordEncoder(){
+        return SfgPasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }
+
+   // @Override
+ //   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+       // auth.userDetailsService(this.jpaUserDetailsService).passwordEncoder(passwordEncoder());
+
+//        auth.inMemoryAuthentication()
+//                .withUser("spring")
+//                .password("{bcrypt}$2a$10$7tYAvVL2/KwcQTcQywHIleKueg4ZK7y7d44hKyngjTwHCDlesxdla")
+//                .roles("ADMIN")
+//                .and()
+//                .withUser("user")
+//                .password("{sha256}1296cefceb47413d3fb91ac7586a4625c33937b4d3109f5a4dd96c79c46193a029db713b96006ded")
+//                .roles("USER");
+//
+//        auth.inMemoryAuthentication().withUser("scott").password("{bcrypt15}$2a$15$baOmQtw8UqWZRDQhMFPFj.xhkkWveCTQHe4OBdr8yw8QshejiSbI6").roles("CUSTOMER");
+  //  }
 
 //    @Bean
 //    protected UserDetailsService userDetailsService(){

@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SfgPasswordEncoderFactories {
+
     public static PasswordEncoder createDelegatingPasswordEncoder() {
         String encodingId = "bcrypt10";
         Map<String, PasswordEncoder> encoders = new HashMap<>();
