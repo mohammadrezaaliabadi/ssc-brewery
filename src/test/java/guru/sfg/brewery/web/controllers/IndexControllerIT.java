@@ -3,6 +3,7 @@ package guru.sfg.brewery.web.controllers;
 import guru.sfg.brewery.repositories.BeerInventoryRepository;
 import guru.sfg.brewery.repositories.BeerRepository;
 import guru.sfg.brewery.repositories.CustomerRepository;
+import guru.sfg.brewery.services.BeerOrderService;
 import guru.sfg.brewery.services.BeerService;
 import guru.sfg.brewery.services.BreweryService;
 import org.junit.jupiter.api.Test;
@@ -12,8 +13,11 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+/**
+ * Created by jt on 6/13/20.
+ */
 @WebMvcTest
-public class IndexControllerIT extends BaseIT  {
+public class IndexControllerIT extends BaseIT {
 
     @MockBean
     BeerRepository beerRepository;
@@ -29,6 +33,9 @@ public class IndexControllerIT extends BaseIT  {
 
     @MockBean
     BeerService beerService;
+
+    @MockBean
+    BeerOrderService beerOrderService;
 
     @Test
     void testGetIndexSlash() throws Exception{

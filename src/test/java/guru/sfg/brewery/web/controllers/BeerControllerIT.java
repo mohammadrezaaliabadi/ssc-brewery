@@ -1,4 +1,3 @@
-
 package guru.sfg.brewery.web.controllers;
 
 import guru.sfg.brewery.domain.Beer;
@@ -16,6 +15,9 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+/**
+ * Created by jt on 6/12/20.
+ */
 @SpringBootTest
 public class BeerControllerIT extends BaseIT{
 
@@ -29,7 +31,7 @@ public class BeerControllerIT extends BaseIT{
         @Test
         void initCreationFormAuth() throws Exception {
 
-            mockMvc.perform(get("/beers/new").with(httpBasic("admin", "admin")))
+            mockMvc.perform(get("/beers/new").with(httpBasic("spring", "guru")))
                     .andExpect(status().isOk())
                     .andExpect(view().name("beers/createBeer"))
                     .andExpect(model().attributeExists("beer"));
